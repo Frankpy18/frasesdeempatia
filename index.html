@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frases Empáticas y Despedidas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #clienteNombre {
+            width: 70%;
+            padding: 8px;
+            margin-right: 10px;
+        }
+        .search-bar {
+            padding: 8px;
+            width: 100%;
+        }
+        .case-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #28a745; /* Verde */
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .case-button:hover {
+            background-color: #218838; /* Verde oscuro */
+        }
+        .result {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-top: 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .result h3 {
+            margin-top: 0;
+            color: #28a745;
+        }
+        .result p {
+            font-size: 16px;
+            color: #555;
+        }
+        .feedback {
+            margin-top: 20px;
+            background-color: #f0f8ff;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .feedback input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .alert {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .close-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .close-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Frases Empáticas y Despedidas</h1>
+
+        <!-- Campo para ingresar el nombre del cliente -->
+        <div class="search-container">
+            <label for="clienteNombre">Nombre del Cliente:</label>
+            <input type="text" id="clienteNombre" placeholder="Ingrese nombre del cliente">
+        </div>
+        
+        <!-- Barra de búsqueda para filtrar casos -->
+        <input type="text" id="search-bar" class="search-bar" placeholder="Buscar casos...">
+
+        <div class="alert" id="reminderAlert" style="display: none;">Recuerda utilizar una frase empática durante la llamada.</div>
+
+        <!-- Botones agrupados -->
+        <div id="case-buttons">
+            <h1>Frases Empáticas y Despedidas</h1>
+            <button class="case-button" onclick="showResult('bajaServicio')">Baja del Servicio</button>
+            <button class="case-button" onclick="showResult('inconvenientes')">Inconvenientes con el Servicio</button>
+            <button class="case-button" onclick="showResult('incumplimiento')">Incumplimiento de Retenciones</button>
+            <button class="case-button" onclick="showResult('mantenerDescuento')">Mantener Descuento</button>
+            <button class="case-button" onclick="showResult('bajaNoSolicitada')">Baja No Solicitada (Administrativa)</button>
+            <button class="case-button" onclick="showResult('retrasoVisita')">Retraso de Visita Técnica</button>
+            <button class="case-button" onclick="showResult('contratacionNoSolicitada')">Contratación No Solicitada</button>
+            <button class="case-button" onclick="showResult('noCambioFibra')">No se Realizó Cambio a Fibra Óptica</button>
+            <button class="case-button" onclick="showResult('suspensionTemporal')">Suspensión Temporal</button>
+            <button class="case-button" onclick="showResult('retiroEquipos')">Retiro de Equipos</button>
+            <button class="case-button" onclick="showResult('cambioPlan')">Cambio de Plan</button>
+            <button class="case-button" onclick="showResult('cambioTecnologia')">Cambio de Tecnología</button>
+            <button class="case-button" onclick="showResult('consultaServicioMovil')">Consulta por Servicio Móvil</button>
+            <button class="case-button" onclick="showResult('bloqueoMovil')">Bloqueo Móvil por Robo</button>
+            <button class="case-button" onclick="showResult('incrementoRecibo')">Incremento del Recibo</button>
+            <button class="case-button" onclick="showResult('noSabeComoPagar')">No Sabe Cómo Pagar</button>
+        </div>
+
+        <div id="result" class="result">
+            <h3>Frase Empática</h3>
+            <p id="empatia"></p>
+            <h3>Despedida Vinculada</h3>
+            <p id="despedida"></p>
+
+            <div class="feedback">
+                <label>
+                    <input type="checkbox" id="confirmUsage"> Confirmo que utilicé esta frase en la llamada.
+                </label>
+            </div>
+
+            <!-- Botón para cerrar el cuadro de resultados -->
+            <button class="close-btn" onclick="closeResult()">Cerrar</button>
+        </div>
+
+    </div>
+
+    <script>
+        const casos = {
+            bajaServicio: {
+                empatia: "ENTIENDO QUE ESTÉ CONSIDERANDO LA BAJA DEL SERVICIO, Y LAMENTO QUE HAYA TENIDO UNA EXPERIENCIA QUE LO LLEVE A ESTA DECISIÓN. ESTOY AQUÍ PARA AYUDARLO Y BUSCAREMOS UNA SOLUCIÓN QUE SE AJUSTE A SUS NECESIDADES.",
+                despedida: "ESPERO HABERLE AYUDADO CON LA TRANSFERENCIA AL AREA DE GESTIONES ESPECIALES"
+            },
+            inconvenientes: {
+                empatia: "LAMENTO MUCHO LOS INCONVENIENTES QUE HA TENIDO CON EL SERVICIO. ME COMPROMETO A REVISAR LO QUE ESTÁ OCURRIENDO Y ASEGURARME DE QUE ESTA SITUACIÓN SEA ATENDIDA DE MANERA ADECUADA PARA BRINDARLE UNA SOLUCIÓN LO ANTES POSIBLE.",
+                despedida: "ME ALEGRA HABER PODIDO ASISTIRLE PARA RESOLVER EL INCONVENIENTE CON EL SERVICIO. GRACIAS POR SU PACIENCIA, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+            },
+            incumplimiento: {
+                empatia: "LAMENTO MUCHO QUE LE HAYAN OFRECIDO ALGO Y NO SE HAYA CUMPLIDO COMO ESPERABA, COMPRENDO LO FRUSTRANTE QUE PUEDE SER, NO SE PREOCUPE VOY A VERIFICAR LA SITUACIÓN PARA PODER BRINDARLE INFORMACIÓN CORRECTA.",
+                despedida: "GRACIAS POR SU COMPRENSIÓN MIENTRAS REVISABA EL INCUMPLIMIENTO EN EL OFRECIMIENTO. HA SIDO UN PLACER AYUDARLE, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+            },
+            mantenerDescuento: {
+                empatia: "ENTIENDO PERFECTAMENTE LO IMPORTANTE QUE ES PARA USTED MANTENER SU DESCUENTO, NO SE PREOCUPE QUE VOY A VERIFICAR LA INFORMACIÓN PARA PODER AYUDARLO.",
+                despedida: "ME ALEGRA HABER PODIDO CONFIRMAR LA CONTINUACIÓN DE SU DESCUENTO. LE AGRADEZCO POR SU TIEMPO, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+            },
+            bajaNoSolicitada: {
+                empatia: "LAMENTO MUCHO QUE SE HAYA GESTIONADO UNA BAJA SIN SU SOLICITUD. ENTIENDO LO PROBLEMÁTICO QUE ESTO PUEDE SER Y ME COMPROMETO A VERIFICAR LA INFORMACIÓN RÁPIDAMENTE PARA PODER BRINDARLE MÁS DETALLE DE LO QUE OCURRIÓ.",
+                despedida: "GRACIAS POR SU PACIENCIA MIENTRAS RESOLVÍAMOS LA BAJA NO SOLICITADA. ME ALEGRA HABER PODIDO CORREGIR LA SITUACIÓN. POR FAVOR, COMPLETE NUESTRA ENCUESTA DE SATISFACCIÓN."
+            },
+            retrasoVisita: {
+                empatia: "COMPRENDO COMPLETAMENTE SU FRUSTRACIÓN, Y REALMENTE VALORO LA PACIENCIA QUE HA DEMOSTRADO HASTA AHORA. LE ASEGURO QUE ESTAMOS HACIENDO TODO LO POSIBLE PARA AGILIZAR EL PROCESO Y QUE PRONTO PUEDA DISFRUTAR DE SU SERVICIO SIN MÁS INCONVENIENTES.",
+                despedida: "GRACIAS POR SU PACIENCIA MIENTRAS GESTIONÁBAMOS EL RETRASO DE LA VISITA TÉCNICA. ME ALEGRA HABER PODIDO COORDINAR TODO LO NECESARIO PARA AGILIZAR SU VISITA, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+            },
+            contratacionNoSolicitada: {
+                empatia: "LAMENTO MUCHO QUE HAYA OCURRIDO UNA CONTRATACIÓN NO SOLICITADA. ENTIENDO LO INCOMODO QUE ESTO PUEDE SER PARA USTED, Y ESTOY AQUÍ PARA BRINDARLE LA INFORMACIÓN NECESARIA Y ACLARAR CUALQUIER DUDA QUE TENGA SOBRE EL PROCESO.",
+                despedida: "GRACIAS POR SU TIEMPO MIENTRAS GESTIONABA LA SUSPENSION Y EL RECLAMO DE LA CONTRATACIÓN NO SOLICITADA. HA SIDO UN PLACER AYUDARLE, SI ES DE SU AGRADO LE INVITO A RESPONDER UNA BREVE ENCUESTRA SOBRE MI ATENCIÓN."
+            },
+            noCambioFibra: {
+                empatia: "ENTIENDO SU PREOCUPACIÓN POR NO HABER RECIBIDO EL CAMBIO A FIBRA ÓPTICA SEGÚN LO ESPERADO. VOY A INVESTIGAR LO SUCEDIDO Y ASEGURARME DE QUE SE RESUELVA LO ANTES POSIBLE.",
+                despedida: "GRACIAS POR SU PACIENCIA MIENTRAS GESTIONABA EL CAMBIO A FIBRA ÓPTICA. ME ALEGRA HABER PODIDO RESOLVERLO DURANTE ESTA LLAMADA. SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+            },
+            suspensionTemporal: {
+                empatia: "ENTIENDO COMPLETAMENTE SU SITUACIÓN Y EL MOTIVO POR EL CUAL DESEA SUSPENDER TEMPORALMENTE SU SERVICIO. ESTOY AQUÍ PARA APOYARLO EN CADA PASO DEL PROCESO Y ASEGURARME QUE SEA LO MÁS RÁPIDO POSIBLE.",
+                despedida: "GRACIAS POR SU TIEMPO, HE GESTIONADO SU SUSPENSIÓN TEMPORAL CON ÉXITO. ME ALEGRA HABER PODIDO AYUDARLE, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+            },
+            retiroEquipos: {
+                empatia: "SÉ QUE COORDINAR EL RETIRO DE LOS EQUIPOS PUEDE SER UN INCONVENIENTE, ME COMPROMETO A BRINDARLE TODA LA ASISTENCIA NECESARIA PARA QUE ESTE PROCESO SEA LO MÁS ÁGIL Y CÓMODO PARA USTED.",
+                despedida: "GRACIAS POR SU PACIENCIA, HE COORDINADO EL RETIRO DE LOS EQUIPOS. HA SIDO UN PLACER AYUDARLE, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+            },
+            cambioPlan: {
+                empatia: "ENTIENDO QUE ESTÉ BUSCANDO UN CAMBIO DE PLAN QUE SE AJUSTE MEJOR A SUS NECESIDADES ACTUALES. NO SE PREOCUPE, ESTOY AQUÍ PARA ASEGURARME DE QUE ESTE PROCESO SEA SENCILLO Y LE AYUDE A ENCONTRAR LA OPCIÓN QUE MÁS LE BENEFICIE.",
+                despedida: "GRACIAS POR SU TIEMPO, EL CAMBIO DE PLAN YA HA SIDO REALIZADO CON ÉXITO. ME ALEGRA HABERLE AYUDADO, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+            },
+            cambioTecnologia: {
+                empatia: "ENTIENDO QUE DESEE MEJORAR SU EXPERIENCIA CON UN CAMBIO DE TECNOLOGIA. NO SE PREOCUPE, ESTOY AQUÍ PARA PODER AYUDARLE A REALIZAR LA SOLICITUD DE LA MANERA MÁS SENCILLA POSIBLE Y QUE PUEDA DISFRUTAR DE LOS BENEFICIOS DE ESTA TECNOLOGÍA.",
+                despedida: "ME ALEGRA HABERLO PODIDO AYUDAR CON LA SOLICITUD DE SU CAMBIO DE TECNOLOGIA, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+            },
+            consultaServicioMovil: {
+                empatia: "ENTIENDO LO CRUCIAL QUE ES PARA USTED PODER COMUNICARSE CON EL ÁREA MÓVIL PARA RESOLVER SU CONSULTA. ESTOY AQUÍ PARA AYUDARLE Y CON MUCHO GUSTO LE PROPORCIONARÉ LA MARCACIÓN NECESARIA.",
+                despedida: "GRACIAS POR SU COMPRESION, ME ALEGRA HACERLE PODIDO AYUDAR CON LA MARACACIÓN EXACTA PARA CONTACTARSE CON EL ÁREA MÓVIL. SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+            },
+            bloqueoMovil: {
+                empatia: "LAMENTO MUCHO LA SITUACIÓN QUE ESTÁ VIVIENDO. EN ESTOS MOMENTOS LE BRINDARÉ EL NÚMERO EXACTO DE CONTACTO CON EL ÁREA CORRESPONDIENTE PARA PODER BLOQUEAR SU SERVICIO MÓVIL.",
+                despedida: "GRACIAS POR SU COMPRENSIÓN, SI ES DE SU AGRADO LE INVITO A PARTICIPAR EN UNA ENCUESTA SOBRE MI ATENCIÓN."
+            },
+            incrementoRecibo: {
+                empatia: "ENTIENDO LO PREOCUPANTE QUE PUEDE SER VER UN MONTO MÁS ALTO DE LO ESPERADO EN SU RECIBO. ESTOY AQUÍ PARA REVISAR LOS DETALLES CON USTED Y ENCONTRAR UNA SOLUCIÓN QUE ACLARE CUALQUIER INCONVENIENTE.",
+                despedida: "ME ALEGRA HABERLO PODIDO AYUDAR CON LA INFORMACIÓN DETALLADA DE SU FACTURACIÓN, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+            },
+            noSabeComoPagar: {
+                empatia: "ENTIENDO QUE PUEDA RESULTAR CONFUSO NO SABER CÓMO PROCEDER CON EL PAGO, NO SE PREOCUPE QUE ESTOY AQUÍ PARA GUIARLO PASO A PASO Y ASEGURARME DE QUE TENGA TODA LA INFORMACIÓN NECESARIA PARA HACERLO DE MANERA FÁCIL.",
+                despedida: "ME ALEGRA HABERLO PODIDO AYUDAR CON LA INFORMACIÓN EXACTA PARA QUE PUEDE REALIZAR EL PAGO SUS FACTURACIONES ,SI ES DE SU AGRADO LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+            }
+        };
+
+        function showResult(caso) {
+            const nombreCliente = document.getElementById("clienteNombre").value.trim();
+            const searchTerm = document.getElementById("search-bar").value.trim().toLowerCase();
+
+            if (searchTerm && !casos[caso].empatia.toLowerCase().includes(searchTerm)) {
+                return; // Si no coincide con el término de búsqueda, no muestra el resultado
+            }
+
+            // Concatenamos el nombre del cliente si se proporcionó
+            const empatiaText = nombreCliente ? `Sr/Sra: <strong>${nombreCliente}</strong>: ${casos[caso].empatia}` : casos[caso].empatia;
+            const despedidaText = nombreCliente ? `Sr/Sra: <strong>${nombreCliente}</strong>: ${casos[caso].despedida}` : casos[caso].despedida;
+
+            // Actualizamos el contenido HTML
+            document.getElementById("empatia").innerHTML = empatiaText;
+            document.getElementById("despedida").innerHTML = despedidaText;
+
+            document.getElementById("result").style.display = "block";
+            document.getElementById("reminderAlert").style.display = "block"; // Recordatorio de usar frases empáticas
+        }
+
+        // Función para cerrar el cuadro de resultados
+        function closeResult() {
+            document.getElementById("result").style.display = "none";
+            document.getElementById("reminderAlert").style.display = "none"; // Ocultar también el recordatorio
+        }
+
+        // Filtrar los botones basados en la búsqueda
+        document.getElementById("search-bar").addEventListener("input", function() {
+            const term = this.value.toLowerCase();
+            const buttons = document.querySelectorAll(".case-button");
+            buttons.forEach(button => {
+                const text = button.textContent.toLowerCase();
+                button.style.display = text.includes(term) ? "block" : "none";
+            });
+        });
+    </script>
+
+</body>
+</html>
