@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,116 +5,213 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frases Empáticas y Despedidas</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* Reset básico */
+        * {
+            box-sizing: border-box;
             margin: 0;
-            padding: 20px;
-            background-color: #f4f4f9;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f5;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-        }
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background-color: #fff;
+            min-height: 100vh;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
         }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+        }
+
         h1 {
             text-align: center;
-            color: #333;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2em;
         }
+
         .search-container {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 20px;
         }
+
+        .search-container label {
+            flex: 1 1 200px;
+            margin-right: 15px;
+            font-weight: bold;
+            color: #34495e;
+        }
+
         #clienteNombre {
-            width: 70%;
-            padding: 8px;
-            margin-right: 10px;
+            flex: 3 1 400px;
+            padding: 10px 15px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
         }
+
+        #clienteNombre:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
         .search-bar {
-            padding: 8px;
             width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
         }
+
+        .search-bar:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        #case-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
         .case-button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #28a745; /* Verde */
-            color: white;
-            text-align: center;
+            background-color: #3498db;
+            color: #ffffff;
             border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .case-button:hover {
-            background-color: #218838; /* Verde oscuro */
-        }
-        .result {
-            background-color: #ffffff;
-            padding: 20px;
-            margin-top: 0;
+            padding: 12px 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 80%;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .case-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .case-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .result {
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             display: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            z-index: 1000;
         }
+
         .result h3 {
-            margin-top: 0;
-            color: #28a745;
+            color: #2c3e50;
+            margin-bottom: 10px;
         }
+
         .result p {
-            font-size: 16px;
-            color: #555;
+            color: #555555;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
+
         .feedback {
-            margin-top: 20px;
-            background-color: #f0f8ff;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 14px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
         }
+
+        .feedback label {
+            display: flex;
+            align-items: center;
+            font-size: 0.95em;
+            color: #34495e;
+        }
+
         .feedback input[type="checkbox"] {
             margin-right: 10px;
+            transform: scale(1.2);
         }
-        .alert {
-            background-color: #fff3cd;
-            color: #856404;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 20px;
-            text-align: center;
-        }
+
         .close-btn {
-            background-color: #dc3545;
-            color: white;
+            background-color: #e74c3c;
+            color: #ffffff;
             border: none;
-            border-radius: 4px;
-            padding: 8px 12px;
+            padding: 10px 15px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
-            margin-top: 10px;
+            font-size: 0.95em;
+            transition: background-color 0.3s;
         }
+
         .close-btn:hover {
-            background-color: #c82333;
+            background-color: #c0392b;
+        }
+
+        .alert {
+            background-color: #f1c40f;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* Fondo oscuro para el modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(44, 62, 80, 0.7);
+            display: none;
+            z-index: 999;
+        }
+
+        @media (max-width: 600px) {
+            .search-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-container label {
+                margin-bottom: 10px;
+            }
+
+            #clienteNombre {
+                margin-right: 0;
+            }
         }
     </style>
 </head>
 <body>
+
+    <div class="modal-overlay" id="modalOverlay"></div>
 
     <div class="container">
         <h1>Frases Empáticas y Despedidas</h1>
@@ -129,11 +225,10 @@
         <!-- Barra de búsqueda para filtrar casos -->
         <input type="text" id="search-bar" class="search-bar" placeholder="Buscar casos...">
 
-        <div class="alert" id="reminderAlert" style="display: none;">Recuerda utilizar una frase empática durante la llamada.</div>
+        <div class="alert" id="reminderAlert">Recuerda utilizar una frase empática durante la llamada.</div>
 
         <!-- Botones agrupados -->
         <div id="case-buttons">
-            <h1>Frases Empáticas y Despedidas</h1>
             <button class="case-button" onclick="showResult('bajaServicio')">Baja del Servicio</button>
             <button class="case-button" onclick="showResult('inconvenientes')">Inconvenientes con el Servicio</button>
             <button class="case-button" onclick="showResult('incumplimiento')">Incumplimiento de Retenciones</button>
@@ -152,11 +247,12 @@
             <button class="case-button" onclick="showResult('noSabeComoPagar')">No Sabe Cómo Pagar</button>
             <button class="case-button" onclick="showResult('contrawifi')">Cambio Contraseña WIFI</button>
             <button class="case-button" onclick="showResult('traslado')">Traslado Externo</button>
-            <button class="case-button" onclick="showResult('repetidores')">Entrega de repetidores</button>
-            <button class="case-button" onclick="showResult('repetidoresretraso')">Retraso en la entrega de repetidores</button>
-            <button class="case-button" onclick="showResult('cobranzas')">Deuda pendiente - Cobranzas</button>
+            <button class="case-button" onclick="showResult('repetidores')">Entrega de Repetidores</button>
+            <button class="case-button" onclick="showResult('repetidoresretraso')">Retraso en la Entrega de Repetidores</button>
+            <button class="case-button" onclick="showResult('cobranzas')">Deuda Pendiente - Cobranzas</button>
         </div>
 
+        <!-- Cuadro de resultados -->
         <div id="result" class="result">
             <h3>Frase Empática</h3>
             <p id="empatia"></p>
@@ -178,90 +274,89 @@
     <script>
         const casos = {
             bajaServicio: {
-                empatia: "ENTIENDO QUE ESTÉ CONSIDERANDO LA BAJA DEL SERVICIO, Y LAMENTO QUE HAYA TENIDO UNA EXPERIENCIA QUE LO LLEVE A ESTA DECISIÓN. ESTOY AQUÍ PARA AYUDARLO Y BUSCAREMOS UNA SOLUCIÓN QUE SE AJUSTE A SUS NECESIDADES.",
-                despedida: "ESPERO HABERLE AYUDADO CON LA TRANSFERENCIA AL AREA DE GESTIONES ESPECIALES"
+                empatia: "Entiendo que esté considerando la baja del servicio y lamento que haya tenido una experiencia que lo lleve a esta decisión. Estoy aquí para ayudarlo y buscaremos una solución que se ajuste a sus necesidades.",
+                despedida: "Espero haberle ayudado con la transferencia al área de gestiones especiales."
             },
             inconvenientes: {
-                empatia: "SIENTO MUCHO LOS INCONVENIENTES QUE HA TENIDO CON EL SERVICIO. ME COMPROMETO A REVISAR LO QUE ESTÁ OCURRIENDO Y ASEGURARME DE QUE ESTA SITUACIÓN SEA ATENDIDA DE MANERA ADECUADA PARA BRINDARLE UNA SOLUCIÓN LO ANTES POSIBLE.",
-                despedida: "ME ALEGRA HABER PODIDO ASISTIRLE PARA RESOLVER EL INCONVENIENTE CON EL SERVICIO. GRACIAS POR SU PACIENCIA, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+                empatia: "Siento mucho los inconvenientes que ha tenido con el servicio. Me comprometo a revisar lo que está ocurriendo y asegurarme de que esta situación sea atendida de manera adecuada para brindarle una solución lo antes posible.",
+                despedida: "Me alegra haber podido asistirle para resolver el inconveniente con el servicio. Gracias por su paciencia, si es de su agrado, le invito a completar una breve encuesta para conocer su opinión sobre mi atención."
             },
             incumplimiento: {
-                empatia: "LAMENTO MUCHO QUE LE HAYAN OFRECIDO ALGO Y NO SE HAYA CUMPLIDO COMO ESPERABA, COMPRENDO LO FRUSTRANTE QUE PUEDE SER, NO SE PREOCUPE VOY A VERIFICAR LA SITUACIÓN PARA PODER BRINDARLE INFORMACIÓN CORRECTA.",
-                despedida: "GRACIAS POR SU COMPRENSIÓN MIENTRAS REVISABA EL INCUMPLIMIENTO EN EL OFRECIMIENTO. HA SIDO UN PLACER AYUDARLE, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+                empatia: "Lamento mucho que le hayan ofrecido algo y no se haya cumplido como esperaba, comprendo lo frustrante que puede ser. No se preocupe, voy a verificar la situación para poder brindarle información correcta.",
+                despedida: "Gracias por su comprensión mientras revisaba el incumplimiento en el ofrecimiento. Ha sido un placer ayudarle, si es de su agrado, le invito a completar una breve encuesta para conocer su opinión sobre mi atención."
             },
             mantenerDescuento: {
-                empatia: "ENTIENDO PERFECTAMENTE LO IMPORTANTE QUE ES PARA USTED MANTENER SU DESCUENTO, NO SE PREOCUPE QUE VOY A VERIFICAR LA INFORMACIÓN PARA PODER AYUDARLO.",
-                despedida: "ME ALEGRA HABER PODIDO CONFIRMAR LA CONTINUACIÓN DE SU DESCUENTO. LE AGRADEZCO POR SU TIEMPO, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+                empatia: "Entiendo perfectamente lo importante que es para usted mantener su descuento. No se preocupe, voy a verificar la información para poder ayudarlo.",
+                despedida: "Me alegra haber podido confirmar la continuación de su descuento. Le agradezco por su tiempo, si es de su agrado, le invito a completar una breve encuesta para conocer su opinión sobre mi atención."
             },
             bajaNoSolicitada: {
-                empatia: "LAMENTO MUCHO QUE SE HAYA GESTIONADO UNA BAJA SIN SU SOLICITUD. ENTIENDO LO PROBLEMÁTICO QUE ESTO PUEDE SER Y ME COMPROMETO A VERIFICAR LA INFORMACIÓN RÁPIDAMENTE PARA PODER BRINDARLE MÁS DETALLE DE LO QUE OCURRIÓ.",
-                despedida: "GRACIAS POR SU PACIENCIA MIENTRAS RESOLVÍAMOS LA BAJA NO SOLICITADA. ME ALEGRA HABER PODIDO CORREGIR LA SITUACIÓN. POR FAVOR, COMPLETE NUESTRA ENCUESTA DE SATISFACCIÓN."
+                empatia: "Lamento mucho que se haya gestionado una baja sin su solicitud. Entiendo lo problemático que esto puede ser y me comprometo a verificar la información rápidamente para poder brindarle más detalles de lo que ocurrió.",
+                despedida: "Gracias por su paciencia mientras resolvíamos la baja no solicitada. Me alegra haber podido corregir la situación. Por favor, complete nuestra encuesta de satisfacción."
             },
             retrasoVisita: {
-                empatia: "COMPRENDO COMPLETAMENTE SU FRUSTRACIÓN, Y REALMENTE VALORO LA PACIENCIA QUE HA DEMOSTRADO HASTA AHORA. LE ASEGURO QUE ESTAMOS HACIENDO TODO LO POSIBLE PARA AGILIZAR EL PROCESO Y QUE PRONTO PUEDA DISFRUTAR DE SU SERVICIO SIN MÁS INCONVENIENTES.",
-                despedida: "GRACIAS POR SU PACIENCIA MIENTRAS GESTIONÁBAMOS EL RETRASO DE LA VISITA TÉCNICA. ME ALEGRA HABER PODIDO COORDINAR TODO LO NECESARIO PARA AGILIZAR SU VISITA, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+                empatia: "Comprendo completamente su frustración y realmente valoro la paciencia que ha demostrado hasta ahora. Le aseguro que estamos haciendo todo lo posible para agilizar el proceso y que pronto pueda disfrutar de su servicio sin más inconvenientes.",
+                despedida: "Gracias por su paciencia mientras gestionábamos el retraso de la visita técnica. Me alegra haber podido coordinar todo lo necesario para agilizar su visita, si es de su agrado, le invito a completar una breve encuesta para conocer su opinión sobre mi atención."
             },
             contratacionNoSolicitada: {
-                empatia: "LAMENTO MUCHO QUE SE HAYA REALIZADO UNA CONTRATACIÓN SIN SU SOLICITUD. ENTIENDO LO INCOMODO QUE ESTO PUEDE SER, VOY A VERIFICAR ESTA SITUACIÓN Y ASEGURARME DE REPORTALA LO ANTES POSIBLE.",
-                despedida: "GRACIAS POR SU PACIENCIA Y COMPRENSIÓN MIENTRAS GESTIONABA EL REPORTE DE LA CONTRATACIÓN NO SOLICITADA SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA SOBRE MI ATENCIÓN."
+                empatia: "Lamento mucho que se haya realizado una contratación sin su solicitud. Entiendo lo incómodo que esto puede ser, voy a verificar esta situación y asegurarme de reportarla lo antes posible.",
+                despedida: "Gracias por su paciencia y comprensión mientras gestionaba el reporte de la contratación no solicitada. Si es de su agrado, le invito a completar una breve encuesta sobre mi atención."
             },
             noCambioFibra: {
-                empatia: "ENTIENDO SU PREOCUPACIÓN POR NO HABER RECIBIDO EL CAMBIO A FIBRA ÓPTICA SEGÚN LO ESPERADO. VOY A INVESTIGAR LO SUCEDIDO Y ASEGURARME DE QUE SE RESUELVA LO ANTES POSIBLE.",
-                despedida: "GRACIAS POR SU PACIENCIA MIENTRAS GESTIONABA EL CAMBIO A FIBRA ÓPTICA. ME ALEGRA HABER PODIDO RESOLVERLO DURANTE ESTA LLAMADA. SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+                empatia: "Entiendo su preocupación por no haber recibido el cambio a fibra óptica según lo esperado. Voy a investigar lo sucedido y asegurarme de que se resuelva lo antes posible.",
+                despedida: "Gracias por su paciencia mientras gestionaba el cambio a fibra óptica. Me alegra haber podido resolverlo durante esta llamada. Si es de su agrado, le invito a completar una breve encuesta para conocer su opinión sobre mi atención."
             },
             suspensionTemporal: {
-                empatia: "ENTIENDO COMPLETAMENTE SU SITUACIÓN Y EL MOTIVO POR EL CUAL DESEA SUSPENDER TEMPORALMENTE SU SERVICIO. ESTOY AQUÍ PARA APOYARLO EN CADA PASO DEL PROCESO Y ASEGURARME QUE SEA LO MÁS RÁPIDO POSIBLE.",
-                despedida: "GRACIAS POR SU TIEMPO, HE GESTIONADO SU SUSPENSIÓN TEMPORAL CON ÉXITO. ME ALEGRA HABER PODIDO AYUDARLE, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+                empatia: "Entiendo completamente su situación y el motivo por el cual desea suspender temporalmente su servicio. Estoy aquí para apoyarlo en cada paso del proceso y asegurarme que sea lo más rápido posible.",
+                despedida: "Gracias por su tiempo, he gestionado su suspensión temporal con éxito. Me alegra haber podido ayudarle, si es de su agrado, le invito a completar una breve encuesta para conocer su opinión sobre mi atención."
             },
             retiroEquipos: {
-                empatia: "SÉ QUE COORDINAR EL RETIRO DE LOS EQUIPOS PUEDE SER UN INCONVENIENTE, ME COMPROMETO A BRINDARLE TODA LA ASISTENCIA NECESARIA PARA QUE ESTE PROCESO SEA LO MÁS ÁGIL Y CÓMODO PARA USTED.",
-                despedida: "GRACIAS POR SU PACIENCIA, HE COORDINADO EL RETIRO DE LOS EQUIPOS. HA SIDO UN PLACER AYUDARLE, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+                empatia: "Sé que coordinar el retiro de los equipos puede ser un inconveniente. Me comprometo a brindarle toda la asistencia necesaria para que este proceso sea lo más ágil y cómodo para usted.",
+                despedida: "Gracias por su paciencia, he coordinado el retiro de los equipos. Ha sido un placer ayudarle, si es de su agrado, le invito a completar una breve encuesta para conocer su opinión sobre mi atención."
             },
             cambioPlan: {
-                empatia: "ENTIENDO QUE ESTÉ BUSCANDO UN CAMBIO DE PLAN QUE SE AJUSTE MEJOR A SUS NECESIDADES ACTUALES. NO SE PREOCUPE, ESTOY AQUÍ PARA ASEGURARME DE QUE ESTE PROCESO SEA SENCILLO Y LE AYUDE A ENCONTRAR LA OPCIÓN QUE MÁS LE BENEFICIE.",
-                despedida: "GRACIAS POR SU TIEMPO, EL CAMBIO DE PLAN YA HA SIDO REALIZADO CON ÉXITO. ME ALEGRA HABERLE AYUDADO, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+                empatia: "Entiendo que esté buscando un cambio de plan que se ajuste mejor a sus necesidades actuales. No se preocupe, estoy aquí para asegurarme de que este proceso sea sencillo y le ayude a encontrar la opción que más le beneficie.",
+                despedida: "Gracias por su tiempo, el cambio de plan ya ha sido realizado con éxito. Me alegra haberle ayudado, si es de su agrado, le invito a completar una breve encuesta para conocer su opinión sobre mi atención."
             },
             cambioTecnologia: {
-                empatia: "ENTIENDO QUE DESEE MEJORAR SU EXPERIENCIA CON UN CAMBIO DE TECNOLOGIA. NO SE PREOCUPE, ESTOY AQUÍ PARA PODER AYUDARLE A REALIZAR LA SOLICITUD DE LA MANERA MÁS SENCILLA POSIBLE Y QUE PUEDA DISFRUTAR DE LOS BENEFICIOS DE ESTA TECNOLOGÍA.",
-                despedida: "ME ALEGRA HABERLO PODIDO AYUDAR CON LA SOLICITUD DE SU CAMBIO DE TECNOLOGIA, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+                empatia: "Entiendo que desee mejorar su experiencia con un cambio de tecnología. No se preocupe, estoy aquí para poder ayudarle a realizar la solicitud de la manera más sencilla posible y que pueda disfrutar de los beneficios de esta tecnología.",
+                despedida: "Me alegra haberlo podido ayudar con la solicitud de su cambio de tecnología. Si es de su agrado, le invito a completar una breve encuesta para conocer su opinión sobre mi atención."
             },
             consultaServicioMovil: {
-                empatia: "ENTIENDO LO CRUCIAL QUE ES PARA USTED PODER COMUNICARSE CON EL ÁREA MÓVIL PARA RESOLVER SU CONSULTA. ESTOY AQUÍ PARA AYUDARLE Y CON MUCHO GUSTO LE PROPORCIONARÉ LA MARCACIÓN NECESARIA.",
-                despedida: "GRACIAS POR SU COMPRESION, ME ALEGRA HACERLE PODIDO AYUDAR CON LA MARACACIÓN EXACTA PARA CONTACTARSE CON EL ÁREA MÓVIL. SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+                empatia: "Entiendo lo crucial que es para usted poder comunicarse con el área móvil para resolver su consulta. Estoy aquí para ayudarle y con mucho gusto le proporcionaré la marcación necesaria.",
+                despedida: "Gracias por su comprensión, me alegra haber podido ayudarle con la marcación exacta para contactarse con el área móvil. Si es de su agrado, le invito a completar una breve encuesta para conocer su opinión sobre mi atención."
             },
             bloqueoMovil: {
-                empatia: "LAMENTO MUCHO LA SITUACIÓN QUE ESTÁ VIVIENDO. EN ESTOS MOMENTOS LE BRINDARÉ EL NÚMERO EXACTO DE CONTACTO CON EL ÁREA CORRESPONDIENTE PARA PODER BLOQUEAR SU SERVICIO MÓVIL.",
-                despedida: "GRACIAS POR SU COMPRENSIÓN, SI ES DE SU AGRADO LE INVITO A PARTICIPAR EN UNA ENCUESTA SOBRE MI ATENCIÓN."
+                empatia: "Lamento mucho la situación que está viviendo. En estos momentos le brindaré el número exacto de contacto con el área correspondiente para poder bloquear su servicio móvil.",
+                despedida: "Gracias por su comprensión, si es de su agrado le invito a participar en una encuesta sobre mi atención."
             },
             incrementoRecibo: {
-                empatia: "ENTIENDO LO PREOCUPANTE QUE PUEDE SER VER UN MONTO MÁS ALTO DE LO ESPERADO EN SU RECIBO. ESTOY AQUÍ PARA REVISAR LOS DETALLES CON USTED Y ENCONTRAR UNA SOLUCIÓN QUE ACLARE CUALQUIER INCONVENIENTE.",
-                despedida: "ME ALEGRA HABERLO PODIDO AYUDAR CON LA INFORMACIÓN DETALLADA DE SU FACTURACIÓN, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+                empatia: "Entiendo lo preocupante que puede ser ver un monto más alto de lo esperado en su recibo. Estoy aquí para revisar los detalles con usted y encontrar una solución que aclare cualquier inconveniente.",
+                despedida: "Me alegra haberlo podido ayudar con la información detallada de su facturación. Si es de su agrado, le invito a completar una breve encuesta para conocer su opinión sobre mi atención."
             },
             noSabeComoPagar: {
-                empatia: "ENTIENDO QUE PUEDA RESULTAR CONFUSO NO SABER CÓMO PROCEDER CON EL PAGO, NO SE PREOCUPE QUE ESTOY AQUÍ PARA GUIARLO PASO A PASO Y ASEGURARME DE QUE TENGA TODA LA INFORMACIÓN NECESARIA PARA HACERLO DE MANERA FÁCIL.",
-                despedida: "ME ALEGRA HABERLO PODIDO AYUDAR CON LA INFORMACIÓN EXACTA PARA QUE PUEDE REALIZAR EL PAGO SUS FACTURACIONES ,SI ES DE SU AGRADO LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+                empatia: "Entiendo que pueda resultar confuso no saber cómo proceder con el pago. No se preocupe, estoy aquí para guiarlo paso a paso y asegurarme de que tenga toda la información necesaria para hacerlo de manera fácil.",
+                despedida: "Me alegra haberlo podido ayudar con la información exacta para que pueda realizar el pago de sus facturaciones. Si es de su agrado, le invito a completar una breve encuesta para conocer su opinión sobre mi atención."
             },
             contrawifi: {
-                empatia: "ENTIENDO LO IMPORTANTE QUE ES TENER ACCESO A SU CONTRASEÑA WIFI, Y LAMENTO QUE ESTÉ TENIENDO INCONVENIENTES CON ELLA. VOY A AYUDARLE A RECUPERARLA DE MANERA RÁPIDA Y SENCILLA.",
-                despedida: "ME ALEGRA HABER PODIDO AYUDARLE A RESOLVER EL INCONVENIENTE CON SU CONTRASEÑA WIFI. SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA PARA CONOCER SU OPINIÓN SOBRE MI ATENCIÓN."
+                empatia: "Entiendo lo importante que es tener acceso a su contraseña WIFI, y lamento que esté teniendo inconvenientes con ella. Voy a ayudarle a recuperarla de manera rápida y sencilla.",
+                despedida: "Me alegra haber podido ayudarle a resolver el inconveniente con su contraseña WIFI. Si es de su agrado, le invito a completar una breve encuesta para conocer su opinión sobre mi atención."
             },
             traslado: {
-                empatia: "ENTIENDO LA NECESIDAD DE REALIZAR EL TRASLADO DE SU SERVICIO HOGAR A SU NUEVO DOMICILIO, NO SE PREOCUPE QUE ESTOY AQUI PARA AYUDARLO CON SU SOLICITUD.",
-                despedida: "GRACIAS POR SU TIEMPO, EL TRASLADO HA SIDO COORDINADO. ME ALEGRA HABER PODIDO AYUDARLE, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA SOBRE MI ATENCIÓN."
+                empatia: "Entiendo la necesidad de realizar el traslado de su servicio hogar a su nuevo domicilio. No se preocupe, estoy aquí para ayudarlo con su solicitud.",
+                despedida: "Gracias por su tiempo, el traslado ha sido coordinado. Me alegra haber podido ayudarle, si es de su agrado, le invito a completar una breve encuesta sobre mi atención."
             },
             repetidores: {
-                empatia: "ENTIENDO LO IMPORTANTE QUE ES RECIBIR SUS REPETIDORES PARA MEJORAR SU EXPERIENCIA CON EL SERVICIO DE INTERNET. VOY A REVISAR EL ESTADO DE LA ENTREGA PARA BRINDARLE LA INFORMACIÓN NECESARIA.",
-                despedida: "ME ALEGRA HABERLE PODIDO BRINDAR LA INFORMACIÓN SOBRE LA ENTREGA DE SUS REPETIDORES. SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA ENCUESTA SOBRE MI ATENCIÓN."
+                empatia: "Entiendo lo importante que es recibir sus repetidores para mejorar su experiencia con el servicio de internet. Voy a revisar el estado de la entrega para brindarle la información necesaria.",
+                despedida: "Me alegra haberle podido brindar la información sobre la entrega de sus repetidores. Si es de su agrado, le invito a completar una encuesta sobre mi atención."
             },
             repetidoresretraso: {
-                empatia: "LAMENTO MUCHO EL RETRASO EN LA ENTREGA DE SUS REPETIDORES. ENTIENDO QUE ESTO PUEDA SER INCÓMO PARA USTED, VOY A HACER TODO LO POSIBLE PARA AGILIZAR EL PROCESO Y BRINDARLE UNA RESPUESTA CLARA.",
-                despedida: "GRACIAS POR SU PACIENCIA MIENTRAS VERIFICÁBAMOS EL AGENDAMIENTO DE LA ENTREGA DE SUS REPETIDORES, SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA ENCUESTA SOBRE MI ATENCIÓN"
+                empatia: "Lamento mucho el retraso en la entrega de sus repetidores. Entiendo que esto puede ser incómodo para usted, voy a hacer todo lo posible para agilizar el proceso y brindarle una respuesta clara.",
+                despedida: "Gracias por su paciencia mientras verificábamos el agendamiento de la entrega de sus repetidores. Si es de su agrado, le invito a completar una encuesta sobre mi atención."
             },
             cobranzas: {
-                empatia: "LAMENTO QUE HAYA RECIBIDO UNA LLAMADA DEL ÁREA DE COBRANZAS QUE LE HAYA GENERADO INQUIETUD. ENTIENDO LO IMPORTANTE QUE ES PARA USTED CONTAR CON INFORMACIÓN CLARA, POR LO QUE REVISARÉ DETALLES DEL ESTADO CUENTA PARA BRINDARLE LA INFORMACIÓN EXACTA",
-                despedida: "GRACIAS POR SU PACIENCIA MIENTRAS VERIFICABAMOS EL MONTO REPORTADO POR EL AREA DE COBRANZAS. ME ALEGRA HABERLE PODIDO ASISTIR. SI ES DE SU AGRADO, LE INVITO A COMPLETAR UNA BREVE ENCUESTA SOBRE MI ATENCIÓN."
+                empatia: "Lamento que haya recibido una llamada del área de cobranzas que le haya generado inquietud. Entiendo lo importante que es para usted contar con información clara, por lo que revisaré los detalles del estado de su cuenta para brindarle la información exacta.",
+                despedida: "Gracias por su paciencia mientras verificábamos el monto reportado por el área de cobranzas. Me alegra haberle podido asistir. Si es de su agrado, le invito a completar una breve encuesta sobre mi atención."
             },
-            
         };
 
         function showResult(caso) {
@@ -273,21 +368,30 @@
             }
 
             // Concatenamos el nombre del cliente si se proporcionó
-            const empatiaText = nombreCliente ? `Sr/Sra: <strong>${nombreCliente}</strong>: ${casos[caso].empatia}` : casos[caso].empatia;
-            const despedidaText = nombreCliente ? `Sr/Sra: <strong>${nombreCliente}</strong>: ${casos[caso].despedida}` : casos[caso].despedida;
+            let empatiaText = casos[caso].empatia;
+            let despedidaText = casos[caso].despedida;
+
+            if (nombreCliente) {
+                empatiaText = `Sr./Sra. <strong>${nombreCliente}</strong>: ${casos[caso].empatia}`;
+                despedidaText = `Sr./Sra. <strong>${nombreCliente}</strong>: ${casos[caso].despedida}`;
+            }
 
             // Actualizamos el contenido HTML
             document.getElementById("empatia").innerHTML = empatiaText;
             document.getElementById("despedida").innerHTML = despedidaText;
 
+            // Mostrar el modal
             document.getElementById("result").style.display = "block";
+            document.getElementById("modalOverlay").style.display = "block";
             document.getElementById("reminderAlert").style.display = "block"; // Recordatorio de usar frases empáticas
         }
 
         // Función para cerrar el cuadro de resultados
         function closeResult() {
             document.getElementById("result").style.display = "none";
+            document.getElementById("modalOverlay").style.display = "none";
             document.getElementById("reminderAlert").style.display = "none"; // Ocultar también el recordatorio
+            document.getElementById("confirmUsage").checked = false; // Reiniciar el checkbox
         }
 
         // Filtrar los botones basados en la búsqueda
@@ -299,6 +403,9 @@
                 button.style.display = text.includes(term) ? "block" : "none";
             });
         });
+
+        // Cerrar el modal al hacer clic fuera de él
+        document.getElementById("modalOverlay").addEventListener("click", closeResult);
     </script>
 
 </body>
