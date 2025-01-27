@@ -14,30 +14,89 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #eef2f5;
+            background-color: #ffffff; /* Fondo blanco */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            position: relative;
         }
 
         .container {
-            background-color: #ffffff;
+            background-color: #ffffff; /* Fondo blanco */
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             max-width: 900px;
             width: 100%;
+            z-index: 1;
         }
 
+        /* Estilo del botón en la parte superior */
+        .top-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #6ec6e8; /* Celeste pastel */
+            color: #ffffff;
+            padding: 5px 10px;  /* Reducimos el padding para hacerlo más pequeño */
+            border-radius: 5px; /* Ajustamos el border-radius */
+            text-decoration: none;
+            font-size: 0.9em;  /* Reducimos el tamaño de la fuente */
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-button:hover {
+            background-color: #5bb8d0; /* Celeste un poco más oscuro */
+        }
+
+        /* Estilo para las imágenes laterales */
+        .side-images {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 20px; /* Agregamos un pequeño margen en los laterales */
+            z-index: 0; /* Aseguramos que las imágenes estén detrás del contenido */
+        }
+
+        .left-images, .right-images {
+            display: flex;
+            flex-direction: column; /* Organizar las imágenes verticalmente */
+            justify-content: center; /* Centrar las imágenes verticalmente */
+            align-items: center; /* Alinear las imágenes al centro horizontalmente */
+            width: 27%; /* Cada sección ocupará el 45% de la pantalla */
+        }
+
+        .left-images img, .right-images img {
+            width: 80%; /* Las imágenes ocuparán el 80% de la anchura de su contenedor */
+            height: auto;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+            margin-bottom: 10px; /* Agregar un pequeño margen entre las imágenes */
+        }
+
+        .left-images img:hover, .right-images img:hover {
+            opacity: 1; /* Efecto de hover para mayor visibilidad */
+        }
+
+
+        /* Resaltar y mover el título a la parte superior izquierda */
         h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 25px;
+            position: absolute;
+            top: 20px; /* Alinea al tope */
+            left: 20px; /* Alinea a la izquierda */
+            background-color: #f1c40f; /* Amarillo suave */
+            color: white; /* Texto blanco */
+            padding: 10px;
             font-size: 2em;
+            border-radius: 5px;
         }
-
         .search-container {
             display: flex;
             flex-wrap: wrap;
@@ -90,7 +149,7 @@
         }
 
         .case-button {
-            background-color: #3498db;
+            background-color: #6ec6e8; /* Celeste pastel */
             color: #ffffff;
             border: none;
             padding: 12px 20px;
@@ -102,7 +161,7 @@
         }
 
         .case-button:hover {
-            background-color: #2980b9;
+            background-color: #5bb8d0; /* Celeste un poco más oscuro */
             transform: translateY(-2px);
         }
 
@@ -111,6 +170,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+        /* Estilo para los cuadros de resultado */
         .result {
             background-color: #f9f9f9;
             padding: 25px;
@@ -137,50 +197,6 @@
             line-height: 1.6;
         }
 
-        .feedback {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .feedback label {
-            display: flex;
-            align-items: center;
-            font-size: 0.95em;
-            color: #34495e;
-        }
-
-        .feedback input[type="checkbox"] {
-            margin-right: 10px;
-            transform: scale(1.2);
-        }
-
-        .close-btn {
-            background-color: #e74c3c;
-            color: #ffffff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.95em;
-            transition: background-color 0.3s;
-        }
-
-        .close-btn:hover {
-            background-color: #c0392b;
-        }
-
-        .alert {
-            background-color: #f1c40f;
-            color: #ffffff;
-            padding: 12px 20px;
-            border-radius: 5px;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 20px;
-            display: none;
-        }
-
         /* Fondo oscuro para el modal */
         .modal-overlay {
             position: fixed;
@@ -189,33 +205,73 @@
             width: 100%;
             height: 100%;
             background: rgba(44, 62, 80, 0.7);
-            display: none;
+            visibility: hidden; /* Cambiado de display: none a visibility: hidden */
             z-index: 999;
+            transition: visibility 0.3s; /* Transición suave para ocultar */
         }
 
-        @media (max-width: 600px) {
-            .search-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
+        .close-btn {
+            background-color: #e74c3c; /* Rojo intenso */
+            color: #ffffff; /* Texto blanco */
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s;
+        }
 
-            .search-container label {
-                margin-bottom: 10px;
-            }
+        .close-btn:hover {
+            background-color: #c0392b; /* Rojo más oscuro */
+            transform: translateY(-2px);
+        }
 
-            #clienteNombre {
-                margin-right: 0;
-            }
+        .close-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        /* Resaltar el título */
+        .h1 {
+            text-align: center;
+            background-color: yellow; /* Fondo amarillo */
+            color: white; /* Texto blanco */
+            margin-bottom: 25px;
+            font-size: 2em;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2em;
         }
     </style>
 </head>
 <body>
 
+    <a href="http://portaldeconocimiento.claro.com.pe/documents/20182/12192841/C%C3%B3mo+generar+conexi%C3%B3n+emocional/fa1d2225-cfe7-1d48-0322-7ff3b410f282" class="top-button">CONEXION EMOCIONAL PORTAL SUIC</a>
+
+    <div class="side-images">
+        <!-- Imágenes a la izquierda -->
+        <div class="left-images">
+            <img src="imagen11.png" alt="Imagen 1">
+            <img src="imagen12.png" alt="Imagen 2">
+        </div>
+
+        <!-- Imágenes a la derecha -->
+        <div class="right-images">
+            <img src="imagen13.png" alt="Imagen 3">
+            <img src="imagen14.png" alt="Imagen 4">
+        </div>
+    </div>
+
     <div class="modal-overlay" id="modalOverlay"></div>
 
     <div class="container">
-        <h1>Frases Empáticas y Despedidas</h1>
-
+        <h2>Frases Empáticas y Despedidas</h2>
+        <h1>"Aplica en todas tus llamadas tus frase de empatía y despedida"</h1>
         <!-- Campo para ingresar el nombre del cliente -->
         <div class="search-container">
             <label for="clienteNombre">Nombre del Cliente:</label>
@@ -278,15 +334,25 @@
             },
             inconvenientes: {
                 empatia: "Sé que no es sencillo lidiar con estos inconvenientes. Permítame buscar una solución lo antes posible para poder ayudarlo.",
-                despedida: "OP1 - CON SOLUCIÓN -> Espero haber sido de su ayuda con los descartes necesarios en su servicio. OP2 - SIN SOLUCIÓN -> Se que todo se solucionara Sr ####. OP3 - SIN SOLUCIÓN[TX] -> Espero haber sido de ayuda con la transferencia, se  que todo se solucionará."
+                despedida: `
+                    <p><strong>OP1 (CON SOLUCIÓN):</strong> Espero haber sido de su ayuda con los descartes necesarios en su servicio.</p>
+                    <p><strong>OP2 (SIN SOLUCIÓN):</strong> Sé que todo se solucionará, Sr. ####.</p>
+                    <p><strong>OP3 (SIN SOLUCIÓN[TX]):</strong> Espero haber sido de ayuda con la transferencia, sé que todo se solucionará.</p>
+                `
             },
             incumplimiento: {
                 empatia: "Es comprensible su incomodidad al no visualizar el ofrecimiento brindado. Permítame verificar el inconveniente presentado",
-                despedida: "OP1 -> CON SOLUCIÓN Gracias por alertarnos sobre este error. Fue muy importante brindarle mi apoyo  ---- OP2 -> SIN SOLUCIÓN[TX] “Espero haber sido de ayuda con la transferencia, se  que todo se solucionará."
+                despedida: `
+                    <p><strong>OP1 (CON SOLUCIÓN):</strong> Gracias por alertarnos sobre este error. Fue muy importante brindarle mi apoyo.</p>
+                    <p><strong>OP2 (SIN SOLUCIÓN[TX]):</strong> Espero haber sido de ayuda con la transferencia, sé que todo se solucionará.</p>
+                `
             },
             mantenerDescuento: {
-                empatia: "Sé lo importante que es para usted mantener su descuento,permitame buscar una alternativa que mas lo beneficie.",
-                despedida: "OP1 -> CON SOLUCIÓN -> Gracias por llamar, qué bueno fue poder ayudarlo. --- OP2 -> SIN SOLUCIÓN  “Gracias por contactarnos,espero pueda evaluar las alternativas que teníamos para usted"
+                empatia: "Sé lo importante que es para usted mantener su descuento, permítame buscar una alternativa que más lo beneficie.",
+                despedida: `
+                    <p><strong>OP1 (CON SOLUCIÓN):</strong> Gracias por llamar, qué bueno fue poder ayudarlo.</p>
+                    <p><strong>OP2 (SIN SOLUCIÓN):</strong> Gracias por contactarnos, espero pueda evaluar las alternativas que teníamos para usted.</p>
+                `
             },
             bajaNoSolicitada: {
                 empatia: "Debió ser complicado enfrentar una baja sin su solicitud. Estoy aquí para ayudarlo y verificar la información rápidamente.",
@@ -353,6 +419,7 @@
                 despedida: "Gracias por su paciencia. Fue muy importante brindarle apoyo."
             },
         };
+
 
         function showResult(caso) {
             const nombreCliente = document.getElementById("clienteNombre").value.trim();
