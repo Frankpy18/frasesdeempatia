@@ -14,9 +14,9 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #ffffff; /* Fondo blanco */
+            background-color: #ffffff;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
@@ -24,79 +24,153 @@
         }
 
         .container {
-            background-color: #ffffff; /* Fondo blanco */
-            padding: 30px;
+            background-color: #ffffff;
+            padding: 25px;  /* Reducir el padding para hacer el cuadro más pequeño */
             border-radius: 10px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            max-width: 900px;
+            max-width: 750px;  /* Reducir el max-width para limitar el tamaño máximo */
             width: 100%;
             z-index: 1;
+            margin-top: 20px;
         }
+
 
         /* Estilo del botón en la parte superior */
         .top-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #6ec6e8; /* Celeste pastel */
+            background-color: #6ec6e8;
             color: #ffffff;
-            padding: 5px 10px;  /* Reducimos el padding para hacerlo más pequeño */
-            border-radius: 5px; /* Ajustamos el border-radius */
+            padding: 10px 15px;
+            border-radius: 5px;
             text-decoration: none;
-            font-size: 0.9em;  /* Reducimos el tamaño de la fuente */
+            font-size: 0.9em;
             cursor: pointer;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 300px;
         }
 
         .top-button:hover {
-            background-color: #5bb8d0; /* Celeste un poco más oscuro */
+            background-color: #5bb8d0;
         }
 
-        /* Estilo para las imágenes laterales */
+        /* Estilo para las imágenes */
         .side-images {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
             display: flex;
             justify-content: space-between;
             width: 100%;
-            padding: 0 20px; /* Agregamos un pequeño margen en los laterales */
-            z-index: 0; /* Aseguramos que las imágenes estén detrás del contenido */
+            max-width: 1200px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .left-images, .right-images {
             display: flex;
-            flex-direction: column; /* Organizar las imágenes verticalmente */
-            justify-content: center; /* Centrar las imágenes verticalmente */
-            align-items: center; /* Alinear las imágenes al centro horizontalmente */
-            width: 27%; /* Cada sección ocupará el 45% de la pantalla */
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 250px;
         }
 
         .left-images img, .right-images img {
-            width: 80%; /* Las imágenes ocuparán el 80% de la anchura de su contenedor */
+            width: 100%;
+            max-width: 200px;
             height: auto;
+            object-fit: contain;
             opacity: 0.8;
             transition: opacity 0.3s;
-            margin-bottom: 10px; /* Agregar un pequeño margen entre las imágenes */
+            border-radius: 8px;
         }
 
         .left-images img:hover, .right-images img:hover {
-            opacity: 1; /* Efecto de hover para mayor visibilidad */
+            opacity: 1;
         }
 
-
-        /* Resaltar y mover el título a la parte superior izquierda */
         h1 {
-            position: absolute;
-            top: 20px; /* Alinea al tope */
-            left: 20px; /* Alinea a la izquierda */
-            background-color: #f1c40f; /* Amarillo suave */
-            color: white; /* Texto blanco */
+            background-color: #f1c40f;
+            color: white;
             padding: 10px;
-            font-size: 2em;
+            font-size: 1.5em;
             border-radius: 5px;
+            text-align: center;
+            margin: 20px 0;
+            width: 100%;
         }
+
+        /* Estilos responsive */
+        @media (min-width: 768px) {
+            .side-images {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                padding: 0 20px;
+                margin: 0;
+                pointer-events: none;
+            }
+
+            .left-images, .right-images {
+                flex-direction: column;
+                pointer-events: auto;
+            }
+
+            .left-images {
+                align-items: flex-start;
+            }
+
+            .right-images {
+                align-items: flex-end;
+            }
+
+            .top-button {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                width: auto;
+                margin: 0;
+            }
+
+            h1 {
+                position: absolute;
+                top: 2px;
+                left: 2px;
+                width: auto;
+                margin: 0;
+                font-size: 2em;
+            }
+
+            .container {
+                margin-top: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .left-images img, .right-images img {
+                max-width: 150px;
+            }
+
+            h1 {
+                font-size: 1.2em;
+                padding: 8px;
+            }
+
+            .top-button {
+                font-size: 0.8em;
+                padding: 8px 12px;
+            }
+        }
+
+        /* Resto de estilos (search-container, case-buttons, result, etc.) */
         .search-container {
             display: flex;
             flex-wrap: wrap;
@@ -149,7 +223,7 @@
         }
 
         .case-button {
-            background-color: #6ec6e8; /* Celeste pastel */
+            background-color: #6ec6e8;
             color: #ffffff;
             border: none;
             padding: 12px 20px;
@@ -161,16 +235,10 @@
         }
 
         .case-button:hover {
-            background-color: #5bb8d0; /* Celeste un poco más oscuro */
+            background-color: #5bb8d0;
             transform: translateY(-2px);
         }
 
-        .case-button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Estilo para los cuadros de resultado */
         .result {
             background-color: #f9f9f9;
             padding: 25px;
@@ -245,8 +313,10 @@
             text-align: center;
             color: #2c3e50;
             margin-bottom: 25px;
-            font-size: 2em;
+            font-size: 3em;
         }
+
+        /* Resto del CSS se mantiene igual... */
     </style>
 </head>
 <body>
@@ -254,13 +324,11 @@
     <a href="http://portaldeconocimiento.claro.com.pe/documents/20182/12192841/C%C3%B3mo+generar+conexi%C3%B3n+emocional/fa1d2225-cfe7-1d48-0322-7ff3b410f282" class="top-button">CONEXION EMOCIONAL PORTAL SUIC</a>
 
     <div class="side-images">
-        <!-- Imágenes a la izquierda -->
         <div class="left-images">
             <img src="imagen11.png" alt="Imagen 1">
             <img src="imagen12.png" alt="Imagen 2">
         </div>
 
-        <!-- Imágenes a la derecha -->
         <div class="right-images">
             <img src="imagen13.png" alt="Imagen 3">
             <img src="imagen14.png" alt="Imagen 4">
@@ -271,8 +339,8 @@
     <div class="modal-overlay" id="modalOverlay"></div>
 
     <div class="container">
+        <h1>"Aplica en todas tus llamadas tus frase de empatía y despedida"</h1>
         <h2>Frases Empáticas y Despedidas</h2>
-        <h1>"Aplica en todas tus llamadas tus frase de empatía y despedida"</h1>
         <!-- Campo para ingresar el nombre del cliente -->
         <div class="search-container">
             <label for="clienteNombre">Nombre del Cliente:</label>
@@ -324,7 +392,8 @@
             <!-- Botón para cerrar el cuadro de resultados -->
             <button class="close-btn" onclick="closeResult()">Cerrar</button>
         </div>
-
+        
+        <!-- Resto del contenido se mantiene igual... -->
     </div>
 
     <script>
@@ -470,6 +539,5 @@
         // Cerrar el modal al hacer clic fuera de él
         document.getElementById("modalOverlay").addEventListener("click", closeResult);
     </script>
-
 </body>
 </html>
