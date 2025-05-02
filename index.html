@@ -1,543 +1,251 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frases Empáticas y Despedidas</title>
-    <style>
-        /* Reset básico */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frases Empáticas y Despedidas</title>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-        }
+  <style>
+    /* ─── PALETA ────────────────────────────────────────────── */
+    :root{
+      --primary:       #28a745;
+      --primary-hover: #218838;
+      --bg:            #F4F6F8;
+      --card-bg:       #FFFFFF;
+      --text-dark:     #343A40;
+      --text-muted:    #6C757D;
+      --border-radius: 8px;
+      --transition:    0.2s;
+    }
+    *,*::before,*::after{box-sizing:border-box;}
 
-        .container {
-            background-color: #ffffff;
-            padding: 25px;  /* Reducir el padding para hacer el cuadro más pequeño */
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            max-width: 750px;  /* Reducir el max-width para limitar el tamaño máximo */
-            width: 100%;
-            z-index: 1;
-            margin-top: 20px;
-        }
+    /* ─── FONDO GLOBAL ─────────────────────────────────────── */
+    body{
+      font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+      color:var(--text-dark);
+      background-image:url('fondo.png');
+      background-size:cover;
+      background-attachment:fixed;          /* parallax suave */
+      background-color:var(--bg);           /* color de reserva */
+      display:flex;justify-content:left;align-items:flex-start;
+      padding:20px;min-height:100vh;margin:0;
+    }
 
+    /* ─── BOTÓN FIJO ───────────────────────────────────────── */
+    .top-button{
+      position:fixed;top:20px;right:20px;
+      background:var(--primary);color:#fff;
+      padding:10px 18px;border-radius:var(--border-radius);
+      font-size:0.9rem;text-decoration:none;
+      box-shadow:0 4px 12px rgba(0,0,0,0.05);
+      transition:background var(--transition),transform var(--transition);
+      z-index:200;
+    }
+    .top-button:hover  {background:var(--primary-hover);transform:translateY(-2px);}
+    .top-button:active {transform:translateY(0);}
 
-        /* Estilo del botón en la parte superior */
-        .top-button {
-            background-color: #6ec6e8;
-            color: #ffffff;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 0.9em;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            text-align: center;
-            width: 100%;
-            max-width: 300px;
-        }
+    /* ─── TARJETA ──────────────────────────────────────────── */
+    .card{
+      background:var(--card-bg);
+      border-radius:var(--border-radius);
+      box-shadow:0 4px 12px rgba(0,0,0,0.05);
+      width:100%;max-width:800px;padding:24px;
+    }
+    .header{text-align:center;margin-bottom:16px;}
+    .header h1{font-size:1.4rem;color:var(--primary);margin:0;}
 
-        .top-button:hover {
-            background-color: #5bb8d0;
-        }
+    /* ─── INDICADORES ─────────────────────────────────────── */
+    .stats{display:flex;justify-content:space-between;gap:16px;margin:24px 0;}
+    .stat{
+      flex:1;background:#fff;border-radius:var(--border-radius);
+      box-shadow:0 4px 12px rgba(0,0,0,0.05);
+      padding:20px 0;text-align:center;border-top:4px solid transparent;
+      transition:transform var(--transition);
+    }
+    .stat:hover{transform:translateY(-3px);}
+    .stat .value{font-size:2rem;font-weight:bold;color:var(--text-dark);}
+    .stat .value span{font-size:1rem;vertical-align:super;}
+    .stat .label{
+      margin-top:6px;font-size:0.9rem;color:var(--text-muted);
+      text-transform:uppercase;letter-spacing:0.03em;
+    }
+    .stat.quality  {border-top-color:#3498db;}
+    .stat.tnps     {border-top-color:#2ecc71;}
+    .stat.transfer {border-top-color:#e67e22;}
 
-        /* Estilo para las imágenes */
-        .side-images {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 1600px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+    /* ─── FORMULARIO ──────────────────────────────────────── */
+    .form-group{margin-bottom:16px;}
+    .form-group label{display:block;margin-bottom:4px;font-weight:600;}
+    .form-group input{
+      width:100%;padding:10px;border:1px solid #CED4DA;
+      border-radius:var(--border-radius);font-size:0.95rem;
+      transition:border var(--transition);
+    }
+    .form-group input:focus{border-color:var(--primary);outline:none;}
 
-        .left-images, .right-images {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            flex: 1;
-            min-width: 250px;
-        }
+    /* ─── BOTONES DE CASO ─────────────────────────────────── */
+    #case-buttons{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:12px;margin-bottom:24px;
+    }
+    .case-button{
+      background:var(--primary);color:#FFF;border:none;padding:12px;
+      border-radius:var(--border-radius);font-size:0.95rem;cursor:pointer;
+      transition:background var(--transition),transform var(--transition);
+    }
+    .case-button:hover {background:var(--primary-hover);transform:translateY(-2px);}
+    .case-button:active{transform:translateY(0);}
 
-        .left-images img, .right-images img {
-            width: 100%;
-            max-width: 350px;
-            height: auto;
-            object-fit: contain;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-            border-radius: 8px;
-        }
-
-        .left-images img:hover, .right-images img:hover {
-            opacity: 1;
-        }
-
-        h1 {
-            background-color: #f1c40f;
-            color: white;
-            padding: 10px;
-            font-size: 1.5em;
-            border-radius: 5px;
-            text-align: center;
-            margin: 20px 0;
-            width: 100%;
-        }
-
-        /* Estilos responsive */
-        @media (min-width: 768px) {
-            .side-images {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                padding: 0 20px;
-                margin: 0;
-                pointer-events: none;
-            }
-
-            .left-images, .right-images {
-                flex-direction: column;
-                pointer-events: auto;
-            }
-
-            .left-images {
-                align-items: flex-start;
-            }
-
-            .right-images {
-                align-items: flex-end;
-            }
-
-            .top-button {
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                width: auto;
-                margin: 0;
-            }
-
-            h1 {
-                position: absolute;
-                top: 2px;
-                left: 2px;
-                width: auto;
-                margin: 0;
-                font-size: 2em;
-            }
-
-            .container {
-                margin-top: 0;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-
-            .container {
-                padding: 15px;
-            }
-
-            .left-images img, .right-images img {
-                max-width: 150px;
-            }
-
-            h1 {
-                font-size: 1.2em;
-                padding: 8px;
-            }
-
-            .top-button {
-                font-size: 0.8em;
-                padding: 8px 12px;
-            }
-        }
-
-        /* Resto de estilos (search-container, case-buttons, result, etc.) */
-        .search-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .search-container label {
-            flex: 1 1 200px;
-            margin-right: 15px;
-            font-weight: bold;
-            color: #34495e;
-        }
-
-        #clienteNombre {
-            flex: 3 1 400px;
-            padding: 10px 15px;
-            border: 1px solid #bdc3c7;
-            border-radius: 5px;
-            font-size: 1em;
-            transition: border-color 0.3s;
-        }
-
-        #clienteNombre:focus {
-            border-color: #3498db;
-            outline: none;
-        }
-
-        .search-bar {
-            width: 100%;
-            padding: 10px 15px;
-            border: 1px solid #bdc3c7;
-            border-radius: 5px;
-            font-size: 1em;
-            margin-bottom: 20px;
-            transition: border-color 0.3s;
-        }
-
-        .search-bar:focus {
-            border-color: #3498db;
-            outline: none;
-        }
-
-        #case-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .case-button {
-            background-color: #6ec6e8;
-            color: #ffffff;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 1em;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s, transform 0.2s;
-        }
-
-        .case-button:hover {
-            background-color: #5bb8d0;
-            transform: translateY(-2px);
-        }
-
-        .result {
-            background-color: #f9f9f9;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 600px;
-            z-index: 1000;
-        }
-
-        .result h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .result p {
-            color: #555555;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        /* Fondo oscuro para el modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(44, 62, 80, 0.7);
-            visibility: hidden; /* Cambiado de display: none a visibility: hidden */
-            z-index: 999;
-            transition: visibility 0.3s; /* Transición suave para ocultar */
-        }
-
-        .close-btn {
-            background-color: #e74c3c; /* Rojo intenso */
-            color: #ffffff; /* Texto blanco */
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 0.9em;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s, transform 0.2s;
-        }
-
-        .close-btn:hover {
-            background-color: #c0392b; /* Rojo más oscuro */
-            transform: translateY(-2px);
-        }
-
-        .close-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        /* Resaltar el título */
-        .h1 {
-            text-align: center;
-            background-color: yellow; /* Fondo amarillo */
-            color: white; /* Texto blanco */
-            margin-bottom: 25px;
-            font-size: 2em;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        h2 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 25px;
-            font-size: 3em;
-        }
-
-        /* Resto del CSS se mantiene igual... */
-    </style>
+    /* ─── MODAL ───────────────────────────────────────────── */
+    .modal-overlay{
+      position:fixed;top:0;left:0;right:0;bottom:0;
+      background:rgba(0,0,0,0.5);display:none;
+      align-items:center;justify-content:center;z-index:100;
+    }
+    .modal{
+      background:var(--card-bg);padding:20px;border-radius:var(--border-radius);
+      width:90%;max-width:500px;
+      box-shadow:0 6px 20px rgba(0,0,0,0.1);position:relative;
+    }
+    .modal h3{margin-bottom:12px;font-size:1.2rem;color:var(--primary);}
+    .modal p {margin-bottom:16px;line-height:1.4;}
+    .modal .close-btn{
+      background:var(--primary);color:#fff;border:none;padding:10px 16px;
+      border-radius:var(--border-radius);cursor:pointer;
+      position:absolute;top:20px;right:20px;
+      transition:background var(--transition);
+    }
+    .modal .close-btn:hover{background:var(--primary-hover);}
+  </style>
 </head>
+
 <body>
 
-    <a href="http://portaldeconocimiento.claro.com.pe/documents/20182/12192841/C%C3%B3mo+generar+conexi%C3%B3n+emocional/fa1d2225-cfe7-1d48-0322-7ff3b410f282" class="top-button">CONEXION EMOCIONAL PORTAL SUIC</a>
+  <!-- BOTÓN FIJO -->
+  <a href="http://portaldeconocimiento.claro.com.pe/documents/20182/12192841/C%C3%B3mo+generar+conexi%C3%B3n+emocional/fa1d2225-cfe7-1d48-0322-7ff3b410f282"
+     class="top-button" target="_blank" rel="noopener">
+     CONEXIÓN EMOCIONAL PORTAL SUIC
+  </a>
 
-    <div class="side-images">
-        <div class="left-images">
-            <img src="imagen11.png" alt="Imagen 1">
-            <img src="imagen12.png" alt="Imagen 2">
-        </div>
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="card">
+    <div class="header"><h1>Frases Empáticas y Despedidas Vinculadas</h1></div>
 
-        <div class="right-images">
-            <img src="imagen13.png" alt="Imagen 3">
-            <img src="imagen14.png" alt="Imagen 4">
-            <img src="imagen15.png" alt="Imagen 5">
-        </div>
+    <div class="stats">
+      <div class="stat quality"><div class="value">83<span>%</span></div><div class="label">Calidad</div></div>
+      <div class="stat tnps"><div class="value">70<span>%</span></div><div class="label">TNPS</div></div>
+      <div class="stat transfer"><div class="value">79<span>%</span></div><div class="label">Transferencia</div></div>
     </div>
 
-    <div class="modal-overlay" id="modalOverlay"></div>
-
-    <div class="container">
-        <h1>"Aplica en todas tus llamadas tus frase de empatía y despedida"</h1>
-        <h2>Frases Empáticas y Despedidas</h2>
-        <!-- Campo para ingresar el nombre del cliente -->
-        <div class="search-container">
-            <label for="clienteNombre">Nombre del Cliente:</label>
-            <input type="text" id="clienteNombre" placeholder="Ingrese nombre del cliente">
-        </div>
-        
-        <!-- Barra de búsqueda para filtrar casos -->
-        <input type="text" id="search-bar" class="search-bar" placeholder="Buscar casos...">
-
-        <div class="alert" id="reminderAlert">Recuerda utilizar una frase empática durante la llamada.</div>
-
-        <!-- Botones agrupados -->
-        <div id="case-buttons">
-            <button class="case-button" onclick="showResult('bajaServicio')">Baja del Servicio</button>
-            <button class="case-button" onclick="showResult('inconvenientes')">Inconvenientes con el Servicio</button>
-            <button class="case-button" onclick="showResult('incumplimiento')">Incumplimiento de Retenciones</button>
-            <button class="case-button" onclick="showResult('mantenerDescuento')">Mantener Descuento</button>
-            <button class="case-button" onclick="showResult('bajaNoSolicitada')">Baja No Solicitada (Administrativa)</button>
-            <button class="case-button" onclick="showResult('retrasoVisita')">Retraso de Visita Técnica</button>
-            <button class="case-button" onclick="showResult('contratacionNoSolicitada')">Contratación No Solicitada</button>
-            <button class="case-button" onclick="showResult('noCambioFibra')">No se Realizó Cambio a Fibra Óptica</button>
-            <button class="case-button" onclick="showResult('suspensionTemporal')">Suspensión Temporal</button>
-            <button class="case-button" onclick="showResult('retiroEquipos')">Retiro de Equipos</button>
-            <button class="case-button" onclick="showResult('cambioPlan')">Cambio de Plan</button>
-            <button class="case-button" onclick="showResult('cambioTecnologia')">Cambio de Tecnología</button>
-            <button class="case-button" onclick="showResult('consultaServicioMovil')">Consulta por Servicio Móvil</button>
-            <button class="case-button" onclick="showResult('bloqueoMovil')">Bloqueo Móvil por Robo</button>
-            <button class="case-button" onclick="showResult('incrementoRecibo')">Incremento del Recibo</button>
-            <button class="case-button" onclick="showResult('noSabeComoPagar')">No Sabe Cómo Pagar</button>
-            <button class="case-button" onclick="showResult('contrawifi')">Cambio Contraseña WIFI</button>
-            <button class="case-button" onclick="showResult('traslado')">Traslado Externo</button>
-            <button class="case-button" onclick="showResult('repetidoresretraso')">Retraso en la Entrega de Repetidores</button>
-            <button class="case-button" onclick="showResult('cobranzas')">Deuda Pendiente - Cobranzas</button>
-        </div>
-
-        <!-- Cuadro de resultados -->
-        <div id="result" class="result">
-            <h3>Frase Empática</h3>
-            <p id="empatia"></p>
-            <h3>Despedida Vinculada</h3>
-            <p id="despedida"></p>
-
-            <div class="feedback">
-                <label>
-                    <input type="checkbox" id="confirmUsage"> Confirmo que utilicé esta frase en la llamada.
-                </label>
-            </div>
-
-            <!-- Botón para cerrar el cuadro de resultados -->
-            <button class="close-btn" onclick="closeResult()">Cerrar</button>
-        </div>
-        
-        <!-- Resto del contenido se mantiene igual... -->
+    <div class="form-group">
+      <label for="clienteNombre">Nombre del Cliente</label>
+      <input type="text" id="clienteNombre" placeholder="Ingrese nombre del cliente">
     </div>
 
-    <script>
-        const casos = {
-            bajaServicio: {
-                empatia: "Entendemos su necesidad de cancelar el servicio, permítame buscar alguna alternativa de solución que lo pueda beneficiar.",
-                despedida: "Espero haberle ayudado con la transferencia."
-            },
-            inconvenientes: {
-                empatia: "Sé que no es sencillo lidiar con estos inconvenientes. Permítame buscar una solución lo antes posible para poder ayudarlo.",
-                despedida: `
-                    <p><strong>OP1 (CON SOLUCIÓN):</strong> Espero haber sido de su ayuda con los descartes necesarios en su servicio.</p>
-                    <p><strong>OP2 (SIN SOLUCIÓN):</strong> Sé que todo se solucionará, Sr. ####.</p>
-                    <p><strong>OP3 (SIN SOLUCIÓN[TX]):</strong> Espero haber sido de ayuda con la transferencia, sé que todo se solucionará.</p>
-                `
-            },
-            incumplimiento: {
-                empatia: "Es comprensible su incomodidad al no visualizar el ofrecimiento brindado. Permítame verificar el inconveniente presentado",
-                despedida: `
-                    <p><strong>OP1 (CON SOLUCIÓN):</strong> Gracias por alertarnos sobre este error. Fue muy importante brindarle mi apoyo.</p>
-                    <p><strong>OP2 (SIN SOLUCIÓN[TX]):</strong> Espero haber sido de ayuda con la transferencia, sé que todo se solucionará.</p>
-                `
-            },
-            mantenerDescuento: {
-                empatia: "Sé lo importante que es para usted mantener su descuento, permítame buscar una alternativa que más lo beneficie.",
-                despedida: `
-                    <p><strong>OP1 (CON SOLUCIÓN):</strong> Gracias por llamar, qué bueno fue poder ayudarlo.</p>
-                    <p><strong>OP2 (SIN SOLUCIÓN):</strong> Gracias por contactarnos, espero pueda evaluar las alternativas que teníamos para usted.</p>
-                `
-            },
-            bajaNoSolicitada: {
-                empatia: "Debió ser complicado enfrentar una baja sin su solicitud. Estoy aquí para ayudarlo y verificar la información rápidamente.",
-                despedida: "Gracias por su paciencia. Sé que todo se solucionará."
-            },
-            retrasoVisita: {
-                empatia: "Comprendo su frustración y valoro su paciencia. Lo acompañaré en este proceso para agilizar la visita técnica.",
-                despedida: "Gracias por su paciencia. Sé que todo se solucionará."
-            },
-            contratacionNoSolicitada: {
-                empatia: "Sé que no es sencillo lidiar con una contratación no solicitada. Voy a buscar la solución y asegurarme de reportarla lo antes posible.",
-                despedida: "Gracias por su comunicación. Sé que no volverá a ocurrir."
-            },
-            noCambioFibra: {
-                empatia: "Debe ser difícil para usted no haber recibido el cambio de técnología según lo esperado. Voy asegurarme de que se resuelva lo antes posible.",
-                despedida: "Gracias por su paciencia. Me alegra haber podido ayudar."
-            },
-            suspensionTemporal: {
-                empatia: "Lo acompañaré en el  proceso de la suspensión temporal de su servicio.",
-                despedida: "Gracias por su tiempo, esperamos volver a atenderle pronto."
-            },
-            retiroEquipos: {
-                empatia: "Estoy aquí para ayudarlo y hacer que este proceso sea lo más ágil y cómodo posible.",
-                despedida: "Gracias por su paciencia. Fue muy importante brindarle mi apoyo."
-            },
-            cambioPlan: {
-                empatia: "Sé que no es sencillo encontrar un plan que se ajuste a sus necesidades actuales. Estoy aquí para ayudarlo a encontrar la opción que más le beneficie.",
-                despedida: "Gracias por su tiempo. Me alegra haber brindarle mi apoyo."
-            },
-            cambioTecnologia: {
-                empatia: "Estoy aquí para ayudarlo a realizar la solicitud de cambio de tecnología que usted esta requiriendo.",
-                despedida: "Gracias por su comprensión.Sé que todo se solucionará."
-            },
-            consultaServicioMovil: {
-                empatia: "Estoy aquí para ayudarlo con la marcación y orientación necesaria para que pueda comunicarse con el área movil.",
-                despedida: "Me alegra haber podido asistirle. Gracias por contactarnos"
-            },
-            bloqueoMovil: {
-                empatia: "Debió ser complicado enfrentar esta situación. Espero que se encuentre bien de salud.(speech de marcación móvil)",
-                despedida: "Gracias por su comprensión.Sé que todo se solucionará."
-            },
-            incrementoRecibo: {
-                empatia: "Sé la molestia que esto le causa ver un monto más alto de lo esperado en su recibo. Voy a buscar la solución y revisar los detalles con usted.",
-                despedida: "Me alegra haber podido asistirle. Gracias por contactarnos."
-            },
-            noSabeComoPagar: {
-                empatia: "Se lo importante que es para usted realizar su pago, permítame orientarlo con el metódo que mas lo beneficie.",
-                despedida: "Me alegra haber podido asistirle. Gracias por su tiempo."
-            },
-            contrawifi: {
-                empatia: "Estoy aquí para ayudarlo y realizar el cambio de  su contraseña WIFI.",
-                despedida: "Me alegra haber podido asistirle. Gracias por su comunicación."
-            },
-            traslado: {
-                empatia: "Estoy aquí para ayudarlo a realizar su solicitud de traslado de servicio.",
-                despedida: "Me alegra haber podido asistirle. Gracias por su tiempo."
-            },
-            repetidoresretraso: {
-                empatia: "Debe ser difícil para usted enfrentar el retraso de su solicitud. Voy a hacer todo lo posible para poder ayudarlo.",
-                despedida: "Gracias por su paciencia. Sé que todo se solucionará."
-            },
-            cobranzas: {
-                empatia: "Es comprensible la molestia que le causa recibir una llamada del área de cobranzas. Voy a buscar la solución y revisar los detalles del estado de su cuenta para brindarle la información exacta.",
-                despedida: "Gracias por su paciencia. Fue muy importante brindarle apoyo."
-            },
-        };
+    <div class="form-group">
+      <label for="search-bar">Buscar casos</label>
+      <input type="text" id="search-bar" placeholder="Ej. Baja de Servicio">
+    </div>
 
+    <!-- BOTONES DE CASOS -->
+    <div id="case-buttons">
+      <button class="case-button" onclick="showResult('bajaServicio')">Baja del Servicio</button>
+      <button class="case-button" onclick="showResult('inconvenientes')">Inconvenientes con el Servicio</button>
+      <button class="case-button" onclick="showResult('incumplimiento')">Incumplimiento de Retenciones</button>
+      <button class="case-button" onclick="showResult('mantenerDescuento')">Mantener Descuento</button>
+      <button class="case-button" onclick="showResult('bajaNoSolicitada')">Baja No Solicitada (Administrativa)</button>
+      <button class="case-button" onclick="showResult('retrasoVisita')">Retraso de Visita Técnica</button>
+      <button class="case-button" onclick="showResult('contratacionNoSolicitada')">Contratación No Solicitada</button>
+      <button class="case-button" onclick="showResult('noCambioFibra')">No se Realizó Cambio a Fibra Óptica</button>
+      <button class="case-button" onclick="showResult('suspensionTemporal')">Suspensión Temporal</button>
+      <button class="case-button" onclick="showResult('retiroEquipos')">Retiro de Equipos</button>
+      <button class="case-button" onclick="showResult('cambioPlan')">Cambio de Plan</button>
+      <button class="case-button" onclick="showResult('cambioTecnologia')">Cambio de Tecnología</button>
+      <button class="case-button" onclick="showResult('consultaServicioMovil')">Consulta por Servicio Móvil</button>
+      <button class="case-button" onclick="showResult('bloqueoMovil')">Bloqueo Móvil por Robo</button>
+      <button class="case-button" onclick="showResult('incrementoRecibo')">Incremento del Recibo</button>
+      <button class="case-button" onclick="showResult('noSabeComoPagar')">No Sabe Cómo Pagar</button>
+      <button class="case-button" onclick="showResult('contrawifi')">Cambio Contraseña WIFI</button>
+      <button class="case-button" onclick="showResult('traslado')">Traslado Externo</button>
+      <button class="case-button" onclick="showResult('repetidoresretraso')">Retraso en la Entrega de Repetidores</button>
+      <button class="case-button" onclick="showResult('cobranzas')">Deuda Pendiente - Cobranzas</button>
+      <button class="case-button" onclick="showResult('exprecibo')">Dato / Explicación de recibo</button>
+      <button class="case-button" onclick="showResult('consultadth')">Consulta por móviles o DTH/LTE</button>
+    </div>
+  </div>
 
-        function showResult(caso) {
-            const nombreCliente = document.getElementById("clienteNombre").value.trim();
-            /*const searchTerm = document.getElementById("search-bar").value.trim().toLowerCase();
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <button class="close-btn" onclick="closeResult()">×</button>
+      <h3>Frase Empática</h3>
+      <p id="empatia"></p>
+      <h3>Despedida</h3>
+      <p id="despedida"></p>
+    </div>
+  </div>
 
-            if (searchTerm && !casos[caso].empatia.toLowerCase().includes(searchTerm)) {
-                return; // Si no coincide con el término de búsqueda, no muestra el resultado
-            }*/
+  <script>
+    const casos={
+      bajaServicio:{empatia:"Entendemos su necesidad de cancelar el servicio, permítame buscar alguna alternativa de solución que lo pueda beneficiar.",despedida:"Espero haberle ayudado con la transferencia."},
+      inconvenientes:{empatia:"Sé que no es sencillo lidiar con estos inconvenientes. Permítame buscar una solución lo antes posible para poder ayudarlo.",despedida:"Gracias por su paciencia. Sé que todo se solucionará."},
+      incumplimiento:{empatia:"Es comprensible su incomodidad al no visualizar el ofrecimiento brindado. Permítame verificar el inconveniente presentado.",despedida:"Gracias por alertarnos, fue muy importante brindarle mi apoyo."},
+      mantenerDescuento:{empatia:"Sé lo importante que es para usted mantener su descuento, permítame buscar una alternativa que más lo beneficie.",despedida:"Gracias por llamar, qué bueno fue poder ayudarlo."},
+      bajaNoSolicitada:{empatia:"Debió ser complicado enfrentar una baja sin su solicitud. Estoy aquí para ayudarlo y verificar la información rápidamente.",despedida:"Gracias por su paciencia. Sé que todo se solucionará."},
+      retrasoVisita:{empatia:"Comprendo su frustración y valoro su paciencia. Lo acompañaré en este proceso para agilizar la visita técnica.",despedida:"Gracias por su paciencia. Sé que todo se solucionará."},
+      contratacionNoSolicitada:{empatia:"Sé que no es sencillo lidiar con una contratación no solicitada. Voy a buscar la solución y asegurarme de reportarla.",despedida:"Gracias por su comunicación. Sé que no volverá a ocurrir."},
+      noCambioFibra:{empatia:"Debe ser difícil para usted no haber recibido el cambio de tecnología según lo esperado. Voy a resolverlo lo antes posible.",despedida:"Gracias por su paciencia. Me alegra haber podido ayudar."},
+      suspensionTemporal:{empatia:"Lo acompañaré en el proceso de suspensión temporal de su servicio.",despedida:"Gracias por su tiempo, esperamos volver a atenderle pronto."},
+      retiroEquipos:{empatia:"Estoy aquí para ayudarlo y hacer que este proceso sea lo más ágil y cómodo posible.",despedida:"Gracias por su paciencia. Fue muy importante brindarle mi apoyo."},
+      cambioPlan:{empatia:"Sé que no es sencillo encontrar un plan que se ajuste a sus necesidades actuales. Estoy aquí para ayudarlo.",despedida:"Gracias por su tiempo. Me alegra haber brindado mi apoyo."},
+      cambioTecnologia:{empatia:"Estoy aquí para ayudarlo a realizar la solicitud de cambio de tecnología que usted requiere.",despedida:"Gracias por su comprensión. Sé que todo se solucionará."},
+      consultaServicioMovil:{empatia:"Estoy aquí para ayudarlo con la marcación y orientación necesaria para comunicarse con el área móvil.",despedida:"Me alegra haber podido asistirle. Gracias por contactarnos."},
+      bloqueoMovil:{empatia:"Debió ser complicado enfrentar esta situación. Espero que se encuentre bien.",despedida:"Gracias por su comprensión. Sé que todo se solucionará."},
+      incrementoRecibo:{empatia:"Sé la molestia que causa ver un monto más alto de lo esperado. Voy a revisar los detalles con usted.",despedida:"Gracias por contactarnos, me alegra haber podido asistirle."},
+      /* NUEVO CASO ORDENADO EN LÍNEAS SEPARADAS */
+      exprecibo:{
+        empatia:`
+          <ul style="margin:0 0 8px 18px;padding:0;">
+            <li>Sabemos lo importante que es conocer el detalle de su facturación; permítame brindarle la explicación necesaria.</li>
+            <li>Sabemos lo importante que es conocer su (código, importe, fecha de vencimiento); permítame ayudarle.</li>
+          </ul>`,
+        despedida:"Gracias por su paciencia. Fue muy importante brindarle apoyo."
+      },
+      noSabeComoPagar:{empatia:"Sé lo importante que es para usted realizar su pago, permítame orientarlo con el método más adecuado.",despedida:"Gracias por su tiempo. Me alegra haber podido asistirle."},
+      contrawifi:{empatia:"Estoy aquí para ayudarlo a cambiar su contraseña de WIFI.",despedida:"Gracias por su comunicación. Me alegra haber podido asistirle."},
+      traslado:{empatia:"Estoy aquí para ayudarlo con su solicitud de traslado de servicio.",despedida:"Gracias por su tiempo. Me alegra haber ayudado."},
+      repetidoresretraso:{empatia:"Debe ser difícil enfrentar retrasos en la entrega de repetidores. Voy a hacer todo lo posible por ayudarlo.",despedida:"Gracias por su paciencia. Sé que todo se solucionará."},
+      cobranzas:{empatia:"Es comprensible la molestia que causa recibir una llamada de cobranzas. Voy a revisar su cuenta y le brindaré información exacta.",despedida:"Gracias por su paciencia. Fue muy importante brindarle apoyo."},
+      consultadth:{empatia:"Sé lo importante que es contactarse con el área de servicios móviles; permítame ayudarlo con la marcación correspondiente.",despedida:"Espero haber sido de mi ayuda; que tenga Ud. un excelente día."},
+      exprecibo:{empatia:`<ul style="margin:0 0 8px 18px;padding:0;">
+       <li>Sabemos lo importante que es conocer el detalle de su facturación; permítame brindarle la explicación necesaria.</li>
+       <li>Sabemos lo importante que es conocer su (código, importe, fecha de vencimiento); permítame ayudarle.</li>
+        </ul>`,despedida:"Gracias por su paciencia. Fue muy importante brindarle apoyo."},
+    };
 
-            // Concatenamos el nombre del cliente si se proporcionó
-            let empatiaText = casos[caso].empatia;
-            let despedidaText = casos[caso].despedida;
+    /* Búsqueda por texto */
+    document.getElementById('search-bar').addEventListener('input',e=>{
+      const term=e.target.value.toLowerCase();
+      document.querySelectorAll('.case-button').forEach(btn=>{
+        btn.style.display=btn.textContent.toLowerCase().includes(term)?'':'none';
+      });
+    });
 
-            if (nombreCliente) {
-                empatiaText = `Sr./Sra. <strong>${nombreCliente}</strong>: ${casos[caso].empatia}`;
-                despedidaText = `Sr./Sra. <strong>${nombreCliente}</strong>: ${casos[caso].despedida}`;
-            }
+    function showResult(key){
+      const cliente=document.getElementById('clienteNombre').value.trim();
+      let {empatia,despedida}=casos[key];
+      if(cliente){
+        empatia  =`Sr./Sra. <strong>${cliente}</strong>: ${empatia}`;
+        despedida=`Sr./Sra. <strong>${cliente}</strong>: ${despedida}`;
+      }
+      document.getElementById('empatia').innerHTML=empatia;
+      document.getElementById('despedida').innerHTML=despedida;
+      document.getElementById('modalOverlay').style.display='flex';
+    }
+    function closeResult(){
+      document.getElementById('modalOverlay').style.display='none';
+    }
+  </script>
 
-            // Actualizamos el contenido HTML
-            document.getElementById("empatia").innerHTML = empatiaText;
-            document.getElementById("despedida").innerHTML = despedidaText;
-
-            // Mostrar el modal
-            document.getElementById("result").style.display = "block";
-            document.getElementById("modalOverlay").style.display = "block";
-            document.getElementById("reminderAlert").style.display = "block"; // Recordatorio de usar frases empáticas
-        }
-
-        // Función para cerrar el cuadro de resultados
-        function closeResult() {
-            document.getElementById("result").style.display = "none";
-            document.getElementById("modalOverlay").style.display = "none";
-            document.getElementById("reminderAlert").style.display = "none"; // Ocultar también el recordatorio
-            document.getElementById("confirmUsage").checked = false; // Reiniciar el checkbox
-        }
-
-        // Filtrar los botones basados en la búsqueda
-        document.getElementById("search-bar").addEventListener("input", function() {
-            const term = this.value.toLowerCase();
-            const buttons = document.querySelectorAll(".case-button");
-            buttons.forEach(button => {
-                const text = button.textContent.toLowerCase();
-                button.style.display = text.includes(term) ? "block" : "none";
-            });
-        });
-
-        // Cerrar el modal al hacer clic fuera de él
-        document.getElementById("modalOverlay").addEventListener("click", closeResult);
-    </script>
 </body>
 </html>
