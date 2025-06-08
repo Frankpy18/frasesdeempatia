@@ -8,14 +8,14 @@
   <style>
     /* ─── PALETA ────────────────────────────────────────────── */
     :root{
-      --primary:       #28a745;
-      --primary-hover: #218838;
-      --bg:            #F4F6F8;
-      --card-bg:       #FFFFFF;
-      --text-dark:     #343A40;
-      --text-muted:    #6C757D;
-      --border-radius: 8px;
-      --transition:    0.2s;
+      --primary:        #3f73a7; /* Color principal modificado */
+      --primary-hover:  #356393; /* Color hover modificado */
+      --bg:             #F4F6F8;
+      --card-bg:        #FFFFFF;
+      --text-dark:      #343A40;
+      --text-muted:     #6C757D;
+      --border-radius:  8px;
+      --transition:     0.2s;
     }
     *,*::before,*::after{box-sizing:border-box;}
 
@@ -25,8 +25,8 @@
       color:var(--text-dark);
       background-image:url('fondo.png');
       background-size:cover;
-      background-attachment:fixed;          /* parallax suave */
-      background-color:var(--bg);           /* color de reserva */
+      background-attachment:fixed;      /* parallax suave */
+      background-color:var(--bg);        /* color de reserva */
       display:flex;justify-content:left;align-items:flex-start;
       padding:20px;min-height:100vh;margin:0;
     }
@@ -70,7 +70,7 @@
       text-transform:uppercase;letter-spacing:0.03em;
     }
     .stat.quality  {border-top-color:#3498db;}
-    .stat.tnps     {border-top-color:#2ecc71;}
+    .stat.tnps      {border-top-color:#2ecc71;}
     .stat.transfer {border-top-color:#e67e22;}
 
     /* ─── FORMULARIO ──────────────────────────────────────── */
@@ -121,13 +121,11 @@
 
 <body>
 
-  <!-- BOTÓN FIJO -->
   <a href="http://portaldeconocimiento.claro.com.pe/documents/20182/12192841/C%C3%B3mo+generar+conexi%C3%B3n+emocional/fa1d2225-cfe7-1d48-0322-7ff3b410f282"
      class="top-button" target="_blank" rel="noopener">
-     CONEXIÓN EMOCIONAL PORTAL SUIC
+     CONEXIÓN EMOCIONAL PORTAL SUIC
   </a>
 
-  <!-- CONTENIDO PRINCIPAL -->
   <div class="card">
     <div class="header"><h1>Frases Empáticas y Despedidas Vinculadas</h1></div>
 
@@ -147,7 +145,6 @@
       <input type="text" id="search-bar" placeholder="Ej. Baja de Servicio">
     </div>
 
-    <!-- BOTONES DE CASOS -->
     <div id="case-buttons">
       <button class="case-button" onclick="showResult('bajaServicio')">Baja del Servicio</button>
       <button class="case-button" onclick="showResult('inconvenientes')">Inconvenientes con el Servicio</button>
@@ -174,7 +171,6 @@
     </div>
   </div>
 
-  <!-- MODAL -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <button class="close-btn" onclick="closeResult()">×</button>
